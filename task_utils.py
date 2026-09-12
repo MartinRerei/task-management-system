@@ -1,4 +1,4 @@
-from task_manager.validation import (
+from validation import (
     validate_task_title,
     validate_task_description,
     validate_due_date
@@ -18,7 +18,6 @@ def add_task(tasks_list, title, description, due_date):
     if not valid_date:
         return False, date_msg
         
-    # If everything is valid, create the task dictionary and add it to our list
     new_task = {
         "title": title.strip(),
         "description": description.strip(),
@@ -29,7 +28,7 @@ def add_task(tasks_list, title, description, due_date):
     return True, "Task added successfully."
 
 def mark_task_as_complete(tasks_list, title):
-    """Finds a task by its title and marks it as done."""
+    """Marks an existing task as complete based on its title."""
     for task in tasks_list:
         if task["title"].lower() == title.strip().lower():
             if task["completed"]:
@@ -39,7 +38,7 @@ def mark_task_as_complete(tasks_list, title):
     return False, "Error: Task not found."
 
 def view_pending_tasks(tasks_list):
-    """Returns a list of tasks that are still not completed."""
+    """Returns a list of tasks that have not been completed yet."""
     return [task for task in tasks_list if not task["completed"]]
 
 def calculate_progress(tasks_list):
