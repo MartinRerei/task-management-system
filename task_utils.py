@@ -5,18 +5,13 @@ from task_manager.validation import (
 )
 
 def add_task(tasks_list, title, description, due_date):
-    """Validates input and adds a new task dictionary to the list."""
-    valid_title, title_msg = validate_task_title(title)
-    if not valid_title:
-        return False, title_msg
-        
-    valid_desc, desc_msg = validate_task_description(description)
-    if not valid_desc:
-        return False, desc_msg
-        
-    valid_date, date_msg = validate_due_date(due_date)
-    if not valid_date:
-        return False, date_msg
+    """Validates input using ValueError and adds a new task to the list."""
+    try:
+        validate_task_title(title)
+        validate_task_description(description)
+        validate_due_date(due_date)
+    except ValueError as e:
+        return False, str(e)
         
     new_task = {
         "title": title.strip(),
@@ -27,10 +22,11 @@ def add_task(tasks_list, title, description, due_date):
     tasks_list.append(new_task)
     return True, "Task added successfully!"
 
-def mark_task_as_complete(tasks_list, title):
-    """Marks an existing task as complete based on its title."""
-    for task in tasks_list:
-        if task["title"].lower() == title.strip().lower():
+def mark_task_as_complete(tasks_list, identifier):
+    """Marks a task as complete based on its title or its list index."""
+    for i, task in enumerate(tasks_list, 1):
+        # Checks if the user typed the title OR the task number (like '1')
+        if task["title"].lower() == identifier.strip().lower() or str(i) == identifier.strip():
             if task["completed"]:
                 return False, "Task is already completed."
             task["completed"] = True

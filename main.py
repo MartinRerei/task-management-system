@@ -11,13 +11,16 @@ def main():
     while True:
         print("\n--- Task Management System ---")
         print("1. Add Task")
-        print("2. View Pending Tasks")
-        print("3. Mark Task as Complete")
+        print("2. Mark Task as Complete")
+        print("3. View Pending Tasks")
         print("4. Track Progress")
         print("5. Exit")
         
-        choice = input("Enter your choice (1-5): ").strip()
-        
+        try:
+            choice = input("Enter your choice (1-5): ").strip()
+        except EOFError:
+            break
+            
         if choice == "1":
             title = input("Enter task title: ")
             description = input("Enter task description: ")
@@ -27,6 +30,11 @@ def main():
             print(message)
             
         elif choice == "2":
+            title = input("Enter task title or number: ")
+            success, message = mark_task_as_complete(tasks, title)
+            print(message)
+            
+        elif choice == "3":
             pending = view_pending_tasks(tasks)
             if not pending:
                 print("No pending tasks found.")
@@ -35,11 +43,6 @@ def main():
                 for idx, task in enumerate(pending, 1):
                     print(f"{idx}. {task['title']} - {task['description']} (Due: {task['due_date']})")
                     
-        elif choice == "3":
-            title = input("Enter the title of the task to mark as complete: ")
-            success, message = mark_task_as_complete(tasks, title)
-            print(message)
-            
         elif choice == "4":
             progress = calculate_progress(tasks)
             print(f"Current Progress: {progress}% completed.")
