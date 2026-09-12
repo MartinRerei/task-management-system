@@ -25,7 +25,7 @@ def add_task(tasks_list, title, description, due_date):
         "completed": False
     }
     tasks_list.append(new_task)
-    return True, "Task added successfully."
+    return True, "Task added successfully!"
 
 def mark_task_as_complete(tasks_list, title):
     """Marks an existing task as complete based on its title."""
@@ -34,7 +34,7 @@ def mark_task_as_complete(tasks_list, title):
             if task["completed"]:
                 return False, "Task is already completed."
             task["completed"] = True
-            return True, "Task marked as complete."
+            return True, "Task marked as complete!"
     return False, "Error: Task not found."
 
 def view_pending_tasks(tasks_list):
